@@ -2,8 +2,6 @@
 #MaxThreadsPerHotkey 8
 #Requires AutoHotkey v2.0-a
 
-imgLogo := LoadPicture("resources/assets/logo.png")
-
 guiWidth := 500
 guiHeight := 365
 screenCenterX := (A_ScreenWidth / 2) - (guiWidth / 2)
