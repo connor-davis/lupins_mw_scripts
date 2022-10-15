@@ -17,7 +17,7 @@ g_LMWS.BackColor := "191919"
 g_LMWS_Title := g_LMWS.Add("Text", "W500 H30 Center", "Lupins MW Scripts")
 g_LMWS_Title.SetFont("c16a34a Bold S22")
 
-g_LMWS_Message := g_LMWS.Add("Text", "W480 H60", "Welcome to Lupins MW Scripts. Please note the use of these scripts does not form part of `"hacking`" and never will be. All these scripts do is give you the lazy way of staying on a similar level to sweats.")
+g_LMWS_Message := g_LMWS.Add("Text", "W480 H60", "Welcome to Lupins MW Scripts. Please note the use of these scripts does not form part of `"hacking`" and never will be. All these scripts do is give you the lazy way of staying on a similar level to sweats. Use it at your own risk. I will not be liable for anything that happens.")
 g_LMWS_Message.SetFont("cd6d3d1 S10")
 
 g_LMWS_HotkeyList := g_LMWS.Add("Text", "W480 H20", "Hotkeys:")
