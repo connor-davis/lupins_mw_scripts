@@ -12,7 +12,7 @@ screenCenterY := (A_ScreenHeight / 2) - (guiHeight / 2)
 silentShotEnabled := 0
 rapidFireEnabled := 0
 
-g_LMWS := Gui(, "Lupins MW Scripts")
+g_LMWS := Gui(, "Lupins MW Scripts v1")
 g_LMWS.OnEvent("Close", GuiClose)
 g_LMWS.BackColor := "191919"
 
