@@ -3,21 +3,21 @@
 #Requires AutoHotkey v2.0-a
 
 guiWidth := 500
-guiHeight := 365
+guiHeight := 375
 screenCenterX := (A_ScreenWidth / 2) - (guiWidth / 2)
 screenCenterY := (A_ScreenHeight / 2) - (guiHeight / 2)
 
 silentShotEnabled := 0
 rapidFireEnabled := 0
 
-g_LMWS := Gui(, "Lupins MW Scripts v1")
+g_LMWS := Gui(, "LoneWolf MW Scripts v1")
 g_LMWS.OnEvent("Close", GuiClose)
 g_LMWS.BackColor := "191919"
 
-g_LMWS_Title := g_LMWS.Add("Text", "W500 H30 Center", "Lupins MW Scripts")
+g_LMWS_Title := g_LMWS.Add("Text", "W500 H30 Center", "LoneWolf MW Scripts")
 g_LMWS_Title.SetFont("c16a34a Bold S22")
 
-g_LMWS_Message := g_LMWS.Add("Text", "W480 H60", "Welcome to Lupins MW Scripts. Please note the use of these scripts does not form part of `"hacking`" and never will be. All these scripts do is give you the lazy way of staying on a similar level to sweats. Use it at your own risk. I will not be liable for anything that happens.")
+g_LMWS_Message := g_LMWS.Add("Text", "W480 H70", "Welcome to LoneWolf MW Scripts. Please note the use of these scripts does not form part of `"hacking`" and never will be. All these scripts do is give you the lazy way of staying on a similar level to sweats. Use it at your own risk. I will not be liable for anything that happens.")
 g_LMWS_Message.SetFont("cd6d3d1 S10")
 
 g_LMWS_HotkeyList := g_LMWS.Add("Text", "W480 H20", "Hotkeys:")
