@@ -3,12 +3,13 @@
 #Requires AutoHotkey v2.0-a
 
 guiWidth := 500
-guiHeight := 375
+guiHeight := 405
 screenCenterX := (A_ScreenWidth / 2) - (guiWidth / 2)
 screenCenterY := (A_ScreenHeight / 2) - (guiHeight / 2)
 
 silentShotEnabled := 0
 rapidFireEnabled := 0
+slideCancelEnabled := 0
 
 g_LMWS := Gui(, "LoneWolf MW Scripts v1")
 g_LMWS.OnEvent("Close", GuiClose)
@@ -29,7 +30,10 @@ g_LMWS_SilentShotHotkey.SetFont("cffffff S11")
 g_LMWS_RapidFireHotkey := g_LMWS.Add("Text", "W480 H20", "Rapid Fire: `t`t`tF3")
 g_LMWS_RapidFireHotkey.SetFont("cffffff S11")
 
-g_LMWS_DisableAllHotkey := g_LMWS.Add("Text", "W480 H30", "Disable All: `t`t`tF4")
+g_LMWS_DisableAllHotkey := g_LMWS.Add("Text", "W480 H20", "Slide Cancel: `t`t`tF4 - Activates on press of 'C'")
+g_LMWS_DisableAllHotkey.SetFont("cffffff S11")
+
+g_LMWS_DisableAllHotkey := g_LMWS.Add("Text", "W480 H30", "Disable All: `t`t`tF5")
 g_LMWS_DisableAllHotkey.SetFont("cffffff S11")
 
 g_LMWS_HotkeyList := g_LMWS.Add("Text", "W480 H20", "Extra:")
@@ -52,56 +56,117 @@ ChangeSilentShotLethalKey(A_GuiEvent, GuiCtrlObj, Info, *) {
 
 F2:: enableSilentShot
 F3:: enableRapidFire
-F4:: disableAll
+F4:: enableSlideCancel
+F5:: disableAll
 
 SilentShotScript(*) {
     Send "{Lbutton down}"
-    Sleep(10)
+    Sleep(5)
     Send "{Lbutton up}"
-    Sleep(10)
+    Sleep(5)
     Send "{" SilentShotKey "}"
-    Sleep(50)
+    Sleep(25)
     Send "{1 down}"
-    Sleep(10)
+    Sleep(5)
     Send "{1 up}"
 }
 
 RapidFireScript(*) {
-    Loop {
+    While GetKeyState("LButton", "P") {
         MouseClick("Left")
         Sleep(50)
-    } Until GetKeyState("LButton", "P") = 0
+    }
+}
+
+SlideCancel(*) {
+    Sleep(150)
+    Send("{XButton1}")
 }
 
 enableSilentShot() {
-    SoundBeep
-    SoundBeep
+    global silentShotEnabled
 
-    Hotkey("LButton", SilentShotScript, "Off")
-    Hotkey("LButton", RapidFireScript, "Off")
+    SoundBeep(1000)
+    SoundBeep(500)
 
-    Hotkey("LButton", SilentShotScript, "On")
+    if (silentShotEnabled = 1) {
+        Hotkey("LButton", SilentShotScript, "Off")
+        Hotkey("LButton", RapidFireScript, "Off")
+
+        silentShotEnabled := 0
+    }
+    else {
+        Hotkey("LButton", SilentShotScript, "Off")
+        Hotkey("LButton", RapidFireScript, "Off")
+
+        Hotkey("LButton", SilentShotScript, "On")
+
+        silentShotEnabled := 1
+    }
 }
 
 enableRapidFire() {
-    SoundBeep
-    SoundBeep
-    SoundBeep
+    global rapidFireEnabled
 
-    Hotkey("LButton", SilentShotScript, "Off")
-    Hotkey("LButton", RapidFireScript, "Off")
+    SoundBeep(1000)
+    SoundBeep(500)
+    SoundBeep(1000)
 
-    Hotkey("LButton", RapidFireScript, "On")
+    if (rapidFireEnabled = 1) {
+        Hotkey("LButton", SilentShotScript, "Off")
+        Hotkey("LButton", RapidFireScript, "Off")
+
+        rapidFireEnabled := 0
+    } 
+    else {
+        Hotkey("LButton", SilentShotScript, "Off")
+        Hotkey("LButton", RapidFireScript, "Off")
+
+        Hotkey("LButton", RapidFireScript, "On")
+
+        rapidFireEnabled := 1
+    }
+}
+
+enableSlideCancel() {
+    global slideCancelEnabled
+
+    SoundBeep(1000)
+    SoundBeep(500)
+    SoundBeep(1000)
+    SoundBeep(500)
+
+    if (slideCancelEnabled = 1) {
+        Hotkey("C", SlideCancel, "Off")
+
+        slideCancelEnabled := 0
+    }
+    else {
+        Hotkey("C", SlideCancel, "Off")
+        Hotkey("C", SlideCancel, "On")
+
+        slideCancelEnabled := 1
+    }
 }
 
 disableAll() {
-    SoundBeep
-    SoundBeep
-    SoundBeep
-    SoundBeep
+    global silentShotEnabled
+    global rapidFireEnabled
+    global slideCancelEnabled
+
+    SoundBeep(1000)
+    SoundBeep(500)
+    SoundBeep(1000)
+    SoundBeep(500)
+    SoundBeep(1000)
 
     Hotkey("LButton", SilentShotScript, "Off")
     Hotkey("LButton", RapidFireScript, "Off")
+    Hotkey("C", SlideCancel, "Off")
+
+    silentShotEnabled := 0
+    rapidFireEnabled := 0
+    slideCancelEnabled := 0
 }
 
 GuiClose(*) {
