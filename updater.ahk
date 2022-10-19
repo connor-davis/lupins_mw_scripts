@@ -2,27 +2,22 @@
 #MaxThreads 4
 #Requires AutoHotkey v2.0-a
 
-NextVersion := "1.0.5"
-URL := "https://github.com/connor-davis/lupins_mw_scripts/releases/download/v" NextVersion "/LoneWolfMwScriptsV" NextVersion ".exe"
+URL := "https://github.com/connor-davis/lupins_mw_scripts/releases/download/v1.0.4/LoneWolfMwScriptsV1.0.4.exe"
 DownloadsPath := A_ScriptDir
 
 CheckForUpdate(AppVersion, WebRequest) {
-    If (!(AppVersion = NextVersion)) {
-        WebRequest.Open("GET", URL)
-        WebRequest.Send()
+    WebRequest.Open("GET", URL)
+    WebRequest.Send()
 
-        return WebRequest.ResponseText = "MZ"
-    } else {
-        return 0
-    }
+    return InStr(WebRequest.ResponseText, "MZ")
 }
 
 DownloadUpdate() {
-    Download(URL, DownloadsPath "\LoneWolfMwScriptsV" NextVersion ".exe")
+    Download(URL, DownloadsPath "\LoneWolfMwScriptsV1.0.4.exe")
 }
 
 RunUpdate() {
-    Run(DownloadsPath "\LoneWolfMwScriptsV" NextVersion ".exe")
+    Run(DownloadsPath "\LoneWolfMwScriptsV1.0.4.exe")
 }
 
 DeleteOldVersion() {

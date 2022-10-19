@@ -8,9 +8,12 @@ if (!DirExist(A_MyDocuments "\LMWS")) {
 }
 
 AppVersion := "1.0.4"
+StoredAppVersion := IniRead(A_MyDocuments "\LMWS\config.ini", "Information", "AppVersion", AppVersion)
 WebRequest := ComObject("WinHttp.WinHttpRequest.5.1")
 
-if (CheckForUpdate(AppVersion, WebRequest)) {
+UpdateAvailable := CheckForUpdate(AppVersion, WebRequest)
+
+if (UpdateAvailable) {
     MsgBox("Update found. Downloading the update now.")
 
     DownloadUpdate()
@@ -19,7 +22,10 @@ if (CheckForUpdate(AppVersion, WebRequest)) {
     ExitApp()
 }
 else {
-    DeleteOldVersion()
+    If (!InStr(AppVersion, StoredAppVersion)) {
+        IniWrite("1.0.4", A_MyDocuments "\LMWS\config.ini", "Information", "AppVersion")
+        DeleteOldVersion()
+    }
 
     hidden := 1
 
