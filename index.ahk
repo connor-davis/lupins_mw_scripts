@@ -1,5 +1,5 @@
 #SingleInstance Force
-#MaxThreadsPerHotkey 8
+#DllLoad gdiplus
 #Requires AutoHotkey v2.0-a
 
 if (!DirExist(A_MyDocuments "\LMWS")) {
@@ -17,6 +17,7 @@ SilentShotKey := IniRead(A_MyDocuments "\LMWS\config.ini", "Silent Shot", "key",
 SlideCancelActivatorKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "activatorKey", "C")
 SlideCancelSlideKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "slideKey", "C")
 SlideCancelJumpKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "jumpKey", "Space")
+SlideCancelSprintKeybind := "LShift"
 
 guiWidth := 500
 guiHeight := 635
@@ -77,17 +78,17 @@ g_LMWS_SilentShotLethalHotkey_Input.OnEvent("Change", ChangeSilentShotLethalKey.
 g_LMWS_SlideCancelLabel := g_LMWS.Add("Text", "W480 H20", "Slide Cancel:")
 g_LMWS_SlideCancelLabel.SetFont("S12")
 
-g_LMWS_SlideCancelActivatorKeyLabel := g_LMWS.Add("Text", "W480 H20", "Activator Key:")
+g_LMWS_SlideCancelActivatorKeyLabel := g_LMWS.Add("Text", "W480 H20", "Activator Key")
 g_LMWS_SlideCancelActivatorKeyLabel.SetFont("S11")
 g_LMWS_SlideCancelActivatorKey_Input := g_LMWS.AddEdit("vSlideCancelActivatorKey W480", SlideCancelActivatorKeybind)
 g_LMWS_SlideCancelActivatorKey_Input.OnEvent("Change", ChangeSlideCancelActivatorKey.Bind("Change"))
 
-g_LMWS_SlideCancelSlideKeyLabel := g_LMWS.Add("Text", "W480 H20", "Activator Key:")
+g_LMWS_SlideCancelSlideKeyLabel := g_LMWS.Add("Text", "W480 H20", "Slide Key")
 g_LMWS_SlideCancelSlideKeyLabel.SetFont("S11")
 g_LMWS_SlideCancelSlideKey_Input := g_LMWS.AddEdit("vSlideCancelSlideKey W480", SlideCancelSlideKeybind)
 g_LMWS_SlideCancelSlideKey_Input.OnEvent("Change", ChangeSlideCancelSlideKey.Bind("Change"))
 
-g_LMWS_SlideCancelJumpKeyLabel := g_LMWS.Add("Text", "W480 H20", "Activator Key:")
+g_LMWS_SlideCancelJumpKeyLabel := g_LMWS.Add("Text", "W480 H20", "Jump Key")
 g_LMWS_SlideCancelJumpKeyLabel.SetFont("S11")
 g_LMWS_SlideCancelJumpKey_Input := g_LMWS.AddEdit("vSlideCancelJumpKey W480", SlideCancelJumpKeybind)
 g_LMWS_SlideCancelJumpKey_Input.OnEvent("Change", ChangeSlideCancelJumpKey.Bind("Change"))
@@ -133,6 +134,10 @@ ApplyChanges(*) {
     IniWrite(SlideCancelJumpKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "jumpKey")
 
     GuiCtrlFromHwnd(g_LMWS_StatusBar.Hwnd).Text := "Changes have been saved."
+
+    Sleep(1000)
+
+    GuiCtrlFromHwnd(g_LMWS_StatusBar.Hwnd).Text := ""
 }
 
 Display() {
@@ -158,88 +163,106 @@ SlideCancelCheckboxChanged(*) {
 }
 
 F2:: {
-    toggleSilentShot()
+    If (WinActive("ahk_exe ModernWarfare.exe")) {
+        toggleSilentShot()
 
-    GuiCtrlFromHwnd(g_LMWS_SilentShotCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_SilentShotCheckbox.Hwnd).Value
+        GuiCtrlFromHwnd(g_LMWS_SilentShotCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_SilentShotCheckbox.Hwnd).Value
+    }
 }
 
 F3:: {
-    toggleRapidFire()
+    If (WinActive("ahk_exe ModernWarfare.exe")) {
+        toggleRapidFire()
 
-    GuiCtrlFromHwnd(g_LMWS_RapidFireCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_RapidFireCheckbox.Hwnd).Value
+        GuiCtrlFromHwnd(g_LMWS_RapidFireCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_RapidFireCheckbox.Hwnd).Value
+    }
 }
 
 F4:: {
-    toggleSlideCancel()
+    If (WinActive("ahk_exe ModernWarfare.exe")) {
+        toggleSlideCancel()
 
-    GuiCtrlFromHwnd(g_LMWS_SlideCancelCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_SlideCancelCheckbox.Hwnd).Value
+        GuiCtrlFromHwnd(g_LMWS_SlideCancelCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_SlideCancelCheckbox.Hwnd).Value
+    }
 }
 
 F5:: {
-    disableAll()
+    If (WinActive("ahk_exe ModernWarfare.exe")) {
+        disableAll()
 
-    GuiCtrlFromHwnd(g_LMWS_SilentShotCheckbox.Hwnd).Value := 0
-    GuiCtrlFromHwnd(g_LMWS_RapidFireCheckbox.Hwnd).Value := 0
-    GuiCtrlFromHwnd(g_LMWS_SlideCancelCheckbox.Hwnd).Value := 0
+        GuiCtrlFromHwnd(g_LMWS_SilentShotCheckbox.Hwnd).Value := 0
+        GuiCtrlFromHwnd(g_LMWS_RapidFireCheckbox.Hwnd).Value := 0
+        GuiCtrlFromHwnd(g_LMWS_SlideCancelCheckbox.Hwnd).Value := 0
+    }
 }
 
 SilentShotScript(*) {
-    Send "{Lbutton down}"
-    Sleep(5)
-    Send "{Lbutton up}"
-    Sleep(5)
-    Send "{" SilentShotKey "}"
-    Sleep(25)
-    Send "{1 down}"
-    Sleep(5)
-    Send "{1 up}"
+    If (WinActive("ahk_exe ModernWarfare.exe")) {
+        Send "{Lbutton down}"
+        Sleep(5)
+        Send "{Lbutton up}"
+        Sleep(5)
+        Send "{" SilentShotKey "}"
+        Sleep(25)
+        Send "{1 down}"
+        Sleep(5)
+        Send "{1 up}"
+    }
 }
 
 RapidFireScript(*) {
-    While GetKeyState("LButton", "P") {
-        MouseClick("Left")
-        Sleep(50)
+    If (WinActive("ahk_exe ModernWarfare.exe")) {
+        While GetKeyState("LButton", "P") {
+            MouseClick("Left")
+            Sleep(50)
+        }
     }
 }
 
 SlideCancelScript(*) {
-    Send("{" SlideCancelSlideKeybind " down}")
-    Sleep(80)
-    Send("{" SlideCancelSlideKeybind " up}")
-    Sleep(80)
-    Send("{" SlideCancelSlideKeybind " down}")
-    Sleep(80)
-    Send("{" SlideCancelSlideKeybind " up}")
-    Sleep(60)
-    Send("{" SlideCancelJumpKeybind " down}")
-    Sleep(120)
-    Send("{" SlideCancelJumpKeybind " up}")
+    If (WinActive("ahk_exe ModernWarfare.exe")) {
+        Send("{" SlideCancelSlideKeybind " down}")
+        Sleep(80)
+        Send("{" SlideCancelSlideKeybind " up}")
+        Sleep(80)
+        Send("{" SlideCancelSlideKeybind " down}")
+        Sleep(80)
+        Send("{" SlideCancelSlideKeybind " up}")
+        Sleep(60)
+        Send("{" SlideCancelJumpKeybind " down}")
+        Sleep(120)
+        Send("{" SlideCancelJumpKeybind " up}")
+        Sleep(120)
+        Send("{" SlideCancelSprintKeybind "}")
+    }
 }
 
 toggleSilentShot() {
     global silentShotEnabled
     global rapidFireEnabled
 
-    if (silentShotEnabled = 0) {
-        Hotkey("LButton", SilentShotScript, "Off")
-        Hotkey("LButton", RapidFireScript, "Off")
+    If (WinActive("ahk_exe ModernWarfare.exe")) {
+        if (silentShotEnabled = 0) {
+            Hotkey("LButton", SilentShotScript, "Off")
+            Hotkey("LButton", RapidFireScript, "Off")
 
-        Hotkey("LButton", SilentShotScript, "On")
+            Hotkey("LButton", SilentShotScript, "On")
 
-        silentShotEnabled := 1
-        rapidFireEnabled := 0
+            silentShotEnabled := 1
+            rapidFireEnabled := 0
 
-        SoundBeep 1000
-        SoundBeep 500
-    }
-    else {
-        Hotkey("LButton", SilentShotScript, "Off")
-        Hotkey("LButton", RapidFireScript, "Off")
+            SoundBeep 1000
+            SoundBeep 500
+        }
+        else {
+            Hotkey("LButton", SilentShotScript, "Off")
+            Hotkey("LButton", RapidFireScript, "Off")
 
-        silentShotEnabled := 0
+            silentShotEnabled := 0
 
-        SoundBeep 500
-        SoundBeep 1000
+            SoundBeep 500
+            SoundBeep 1000
+        }
     }
 }
 
@@ -247,54 +270,58 @@ toggleRapidFire() {
     global rapidFireEnabled
     global silentShotEnabled
 
-    if (rapidFireEnabled = 0) {
-        Hotkey("LButton", SilentShotScript, "Off")
-        Hotkey("LButton", RapidFireScript, "Off")
+    If (WinActive("ahk_exe ModernWarfare.exe")) {
+        if (rapidFireEnabled = 0) {
+            Hotkey("LButton", SilentShotScript, "Off")
+            Hotkey("LButton", RapidFireScript, "Off")
 
-        Hotkey("LButton", RapidFireScript, "On")
+            Hotkey("LButton", RapidFireScript, "On")
 
-        rapidFireEnabled := 1
-        silentShotEnabled := 0
+            rapidFireEnabled := 1
+            silentShotEnabled := 0
 
-        SoundBeep 1000
-        SoundBeep 500
-        SoundBeep 1000
-    }
-    else {
-        Hotkey("LButton", SilentShotScript, "Off")
-        Hotkey("LButton", RapidFireScript, "Off")
+            SoundBeep 1000
+            SoundBeep 500
+            SoundBeep 1000
+        }
+        else {
+            Hotkey("LButton", SilentShotScript, "Off")
+            Hotkey("LButton", RapidFireScript, "Off")
 
-        silentShotEnabled := 0
+            silentShotEnabled := 0
 
-        SoundBeep 500
-        SoundBeep 1000
-        SoundBeep 500
+            SoundBeep 500
+            SoundBeep 1000
+            SoundBeep 500
+        }
     }
 }
 
 toggleSlideCancel() {
     global slideCancelEnabled
 
-    if (slideCancelEnabled = 0) {
-        Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "Off")
-        Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "On")
+    If (WinActive("ahk_exe ModernWarfare.exe")) {
+        if (slideCancelEnabled = 0) {
+            Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "Off")
+            Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "On")
 
-        slideCancelEnabled := 1
+            slideCancelEnabled := 1
 
-        SoundBeep 1000
-        SoundBeep 500
-        SoundBeep 1000
-        SoundBeep 500
-    }
-    else {
-        Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "Off")
+            SoundBeep 1000
+            SoundBeep 500
+            SoundBeep 1000
+            SoundBeep 500
+        }
+        else {
+            Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "Off")
 
-        slideCancelEnabled := 0
+            slideCancelEnabled := 0
 
-        SoundBeep 500
-        SoundBeep 1000
-        SoundBeep 500
-        SoundBeep 1000
+            SoundBeep 500
+            SoundBeep 1000
+            SoundBeep 500
+            SoundBeep 1000
+        }
     }
 }
 
@@ -303,19 +330,21 @@ disableAll() {
     global rapidFireEnabled
     global slideCancelEnabled
 
-    SoundBeep 1000
-    SoundBeep 500
-    SoundBeep 1000
-    SoundBeep 500
-    SoundBeep 1000
+    If (WinActive("ahk_exe ModernWarfare.exe")) {
+        SoundBeep 1000
+        SoundBeep 500
+        SoundBeep 1000
+        SoundBeep 500
+        SoundBeep 1000
 
-    silentShotEnabled := 0
-    rapidFireEnabled := 0
-    slideCancelEnabled := 0
+        silentShotEnabled := 0
+        rapidFireEnabled := 0
+        slideCancelEnabled := 0
 
-    Hotkey("LButton", SilentShotScript, "Off")
-    Hotkey("LButton", RapidFireScript, "Off")
-    Hotkey("C", SlideCancelScript, "Off")
+        Hotkey("LButton", SilentShotScript, "Off")
+        Hotkey("LButton", RapidFireScript, "Off")
+        Hotkey("C", SlideCancelScript, "Off")
+    }
 }
 
 GuiClose(*) {
