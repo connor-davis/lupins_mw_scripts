@@ -14,13 +14,16 @@ rapidFireCheckboxHwnd := 0
 slideCancelCheckboxHwnd := 0
 
 SilentShotKey := IniRead(A_MyDocuments "\LMWS\config.ini", "Silent Shot", "key", "F")
+SlideCancelActivatorKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "activatorKey", "C")
+SlideCancelSlideKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "slideKey", "C")
+SlideCancelJumpKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "jumpKey", "Space")
 
 guiWidth := 500
-guiHeight := 465
+guiHeight := 635
 screenCenterX := (A_ScreenWidth / 2) - (guiWidth / 2)
 screenCenterY := (A_ScreenHeight / 2) - (guiHeight / 2)
 
-g_LMWS := Gui(, "LoneWolf MW Scripts v1.0.2")
+g_LMWS := Gui(, "LoneWolf MW Scripts v1.0.3")
 g_LMWS.OnEvent("Close", GuiClose)
 
 g_LMWS_Title := g_LMWS.Add("Text", "W500 H24 X10 Y10", "LoneWolf MW Scripts")
@@ -67,22 +70,69 @@ g_LMWS_HotkeyList.SetFont("c22a55e Bold S14")
 ; Silent Shot Lethal Key Input
 g_LMWS_SilentShotLethalKeyLabel := g_LMWS.Add("Text", "W480 H20", "Silent Shot Lethal Key:")
 g_LMWS_SilentShotLethalKeyLabel.SetFont("S12")
-g_LMWS_SilentShotLethalHotkey_Input := g_LMWS.Add("Hotkey", "vSilentShotKey W480", SilentShotKey)
+g_LMWS_SilentShotLethalHotkey_Input := g_LMWS.AddEdit("vSilentShotKey W480", SilentShotKey)
 g_LMWS_SilentShotLethalHotkey_Input.OnEvent("Change", ChangeSilentShotLethalKey.Bind("Change"))
 
 ; Slide Cancel Usage
-g_LMWS_SilentShotLethalKeyLabel := g_LMWS.Add("Text", "W480 H20", "Slide Cancel:")
-g_LMWS_SilentShotLethalKeyLabel.SetFont("S12")
-g_LMWS_SlideCancelJumpKeyLabel := g_LMWS.Add("Text", "W480 H40", "You need to make sure that your slide key is `"c`" and that your jump key is `"space`".")
+g_LMWS_SlideCancelLabel := g_LMWS.Add("Text", "W480 H20", "Slide Cancel:")
+g_LMWS_SlideCancelLabel.SetFont("S12")
+
+g_LMWS_SlideCancelActivatorKeyLabel := g_LMWS.Add("Text", "W480 H20", "Activator Key:")
+g_LMWS_SlideCancelActivatorKeyLabel.SetFont("S11")
+g_LMWS_SlideCancelActivatorKey_Input := g_LMWS.AddEdit("vSlideCancelActivatorKey W480", SlideCancelActivatorKeybind)
+g_LMWS_SlideCancelActivatorKey_Input.OnEvent("Change", ChangeSlideCancelActivatorKey.Bind("Change"))
+
+g_LMWS_SlideCancelSlideKeyLabel := g_LMWS.Add("Text", "W480 H20", "Activator Key:")
+g_LMWS_SlideCancelSlideKeyLabel.SetFont("S11")
+g_LMWS_SlideCancelSlideKey_Input := g_LMWS.AddEdit("vSlideCancelSlideKey W480", SlideCancelSlideKeybind)
+g_LMWS_SlideCancelSlideKey_Input.OnEvent("Change", ChangeSlideCancelSlideKey.Bind("Change"))
+
+g_LMWS_SlideCancelJumpKeyLabel := g_LMWS.Add("Text", "W480 H20", "Activator Key:")
 g_LMWS_SlideCancelJumpKeyLabel.SetFont("S11")
+g_LMWS_SlideCancelJumpKey_Input := g_LMWS.AddEdit("vSlideCancelJumpKey W480", SlideCancelJumpKeybind)
+g_LMWS_SlideCancelJumpKey_Input.OnEvent("Change", ChangeSlideCancelJumpKey.Bind("Change"))
+
+g_LMWS_ApplyButton := g_LMWS.AddButton("", "Apply Changes")
+g_LMWS_ApplyButton.BackColor := "22e55a"
+g_LMWS_ApplyButton.OnEvent("Click", ApplyChanges)
+
+g_LMWS_StatusBar := g_LMWS.AddStatusBar("", "")
 
 ChangeSilentShotLethalKey(*) {
     global SilentShotKey
 
     o := g_LMWS.Submit("0")
     SilentShotKey := o.SilentShotKey
+}
 
+ChangeSlideCancelActivatorKey(*) {
+    global SlideCancelActivatorKeybind
+
+    o := g_LMWS.Submit("0")
+    SlideCancelActivatorKeybind := o.SlideCancelActivatorKey
+}
+
+ChangeSlideCancelSlideKey(*) {
+    global SlideCancelSlideKeybind
+
+    o := g_LMWS.Submit("0")
+    SlideCancelSlideKeybind := o.SlideCancelSlideKey
+}
+
+ChangeSlideCancelJumpKey(*) {
+    global SlideCancelJumpKeybind
+
+    o := g_LMWS.Submit("0")
+    SlideCancelJumpKeybind := o.SlideCancelJumpKey
+}
+
+ApplyChanges(*) {
     IniWrite(SilentShotKey, A_MyDocuments "\LMWS\config.ini", "Silent Shot", "key")
+    IniWrite(SlideCancelActivatorKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "activatorKey")
+    IniWrite(SlideCancelSlideKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "slideKey")
+    IniWrite(SlideCancelJumpKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "jumpKey")
+
+    GuiCtrlFromHwnd(g_LMWS_StatusBar.Hwnd).Text := "Changes have been saved."
 }
 
 Display() {
@@ -153,17 +203,17 @@ RapidFireScript(*) {
 }
 
 SlideCancelScript(*) {
-    Send "{C down}"
+    Send("{" SlideCancelSlideKeybind " down}")
     Sleep(80)
-    Send "{C up}"
+    Send("{" SlideCancelSlideKeybind " up}")
     Sleep(80)
-    Send("{C down}")
+    Send("{" SlideCancelSlideKeybind " down}")
     Sleep(80)
-    Send "{C up}"
+    Send("{" SlideCancelSlideKeybind " up}")
     Sleep(60)
-    Send "{Space down}"
+    Send("{" SlideCancelJumpKeybind " down}")
     Sleep(120)
-    Send "{Space up}"
+    Send("{" SlideCancelJumpKeybind " up}")
 }
 
 toggleSilentShot() {
@@ -226,8 +276,8 @@ toggleSlideCancel() {
     global slideCancelEnabled
 
     if (slideCancelEnabled = 0) {
-        Hotkey("C", SlideCancelScript, "Off")
-        Hotkey("C", SlideCancelScript, "On")
+        Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "Off")
+        Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "On")
 
         slideCancelEnabled := 1
 
@@ -237,7 +287,7 @@ toggleSlideCancel() {
         SoundBeep 500
     }
     else {
-        Hotkey("C", SlideCancelScript, "Off")
+        Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "Off")
 
         slideCancelEnabled := 0
 
