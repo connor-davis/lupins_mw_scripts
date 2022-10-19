@@ -190,16 +190,16 @@ else {
     End:: {
         global hidden
 
-        ; If (WinActive("ahk_exe ModernWarfare.exe")) {
-        If (hidden) {
-            Display()
-            hidden := 0
+        If (WinActive("ahk_exe ModernWarfare.exe")) {
+            If (hidden) {
+                Display()
+                hidden := 0
+            }
+            else {
+                Hide()
+                hidden := 1
+            }
         }
-        else {
-            Hide()
-            hidden := 1
-        }
-        ; }
     }
 
     Esc:: {
