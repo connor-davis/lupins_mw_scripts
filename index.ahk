@@ -38,7 +38,7 @@ else {
     SilentShotKey := IniRead(A_MyDocuments "\LMWS\config.ini", "Silent Shot", "key", "F")
     SlideCancelActivatorKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "activatorKey", "C")
     SlideCancelSlideKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "slideKey", "C")
-    SlideCancelJumpKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "jumpKey", "Space")
+    SlideCancelCancelKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "cancelKey", "XButton1")
     SlideCancelSprintKeybind := "LShift"
 
     guiWidth := 500
@@ -108,10 +108,10 @@ else {
     g_LMWS_SlideCancelSlideKey_Input := g_LMWS.AddEdit("vSlideCancelSlideKey W480", SlideCancelSlideKeybind)
     g_LMWS_SlideCancelSlideKey_Input.OnEvent("Change", ChangeSlideCancelSlideKey.Bind("Change"))
 
-    g_LMWS_SlideCancelJumpKeyLabel := g_LMWS.Add("Text", "W480 H20", "Jump Key")
-    g_LMWS_SlideCancelJumpKeyLabel.SetFont("S11")
-    g_LMWS_SlideCancelJumpKey_Input := g_LMWS.AddEdit("vSlideCancelJumpKey W480", SlideCancelJumpKeybind)
-    g_LMWS_SlideCancelJumpKey_Input.OnEvent("Change", ChangeSlideCancelJumpKey.Bind("Change"))
+    g_LMWS_SlideCancelCancelKeyLabel := g_LMWS.Add("Text", "W480 H20", "Cancel Key")
+    g_LMWS_SlideCancelCancelKeyLabel.SetFont("S11")
+    g_LMWS_SlideCancelCancelKey_Input := g_LMWS.AddEdit("vSlideCancelCancelKey W480", SlideCancelCancelKeybind)
+    g_LMWS_SlideCancelCancelKey_Input.OnEvent("Change", ChangeSlideCancelCancelKey.Bind("Change"))
 
     g_LMWS_ApplyButton := g_LMWS.AddButton("", "Apply Changes")
     g_LMWS_ApplyButton.BackColor := "22e55a"

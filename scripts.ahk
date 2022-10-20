@@ -19,18 +19,18 @@ ChangeSlideCancelSlideKey(*) {
     SlideCancelSlideKeybind := o.SlideCancelSlideKey
 }
 
-ChangeSlideCancelJumpKey(*) {
-    global SlideCancelJumpKeybind
+ChangeSlideCancelCancelKey(*) {
+    global SlideCancelCancelKeybind
 
     o := g_LMWS.Submit("0")
-    SlideCancelJumpKeybind := o.SlideCancelJumpKey
+    SlideCancelCancelKeybind := o.SlideCancelCancelKey
 }
 
 ApplyChanges(*) {
     IniWrite(SilentShotKey, A_MyDocuments "\LMWS\config.ini", "Silent Shot", "key")
     IniWrite(SlideCancelActivatorKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "activatorKey")
     IniWrite(SlideCancelSlideKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "slideKey")
-    IniWrite(SlideCancelJumpKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "jumpKey")
+    IniWrite(SlideCancelCancelKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "jumpKey")
 
     GuiCtrlFromHwnd(g_LMWS_StatusBar.Hwnd).Text := "Changes have been saved."
 
@@ -63,11 +63,13 @@ SilentShotScript(*) {
         Sleep(5)
         Send("{Lbutton up}")
         Sleep(5)
-        Send("{" SilentShotKey "}")
+        Send("{" SilentShotKey " down}")
         Sleep(25)
         Send("{1 down}")
         Sleep(5)
         Send("{1 up}")
+        Sleep(5)
+        Send("{" SilentShotKey " up}")
         Sleep(5)
         Send("{RButton up}")
     }
@@ -85,17 +87,17 @@ RapidFireScript(*) {
 SlideCancelScript(*) {
     If (WinActive("ahk_exe ModernWarfare.exe")) {
         Send("{" SlideCancelSlideKeybind " down}")
-        Sleep(80)
+        Sleep(70)
         Send("{" SlideCancelSlideKeybind " up}")
-        Sleep(80)
+        Sleep(70)
         Send("{" SlideCancelSlideKeybind " down}")
-        Sleep(80)
+        Sleep(70)
         Send("{" SlideCancelSlideKeybind " up}")
-        Sleep(60)
-        Send("{" SlideCancelJumpKeybind " down}")
-        Sleep(120)
-        Send("{" SlideCancelJumpKeybind " up}")
-        Sleep(120)
+        Sleep(35)
+        Send("{" SlideCancelCancelKeybind " down}")
+        Sleep(5)
+        Send("{" SlideCancelCancelKeybind " up}")
+        Sleep(5)
         Send("{" SlideCancelSprintKeybind "}")
     }
 }
