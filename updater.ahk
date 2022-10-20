@@ -2,7 +2,7 @@
 #MaxThreads 4
 #Requires AutoHotkey v2.0-a
 
-URL := "https://github.com/connor-davis/lupins_mw_scripts/releases/download/v1.0.5/LoneWolfMwScriptsV1.0.5.exe"
+URL := "https://github.com/connor-davis/lupins_mw_scripts/releases/download/v1.0.6/LoneWolfMwScriptsV1.0.6.exe"
 DownloadsPath := A_ScriptDir
 
 CheckForUpdate(AppVersion, WebRequest) {
@@ -13,16 +13,16 @@ CheckForUpdate(AppVersion, WebRequest) {
 }
 
 DownloadUpdate() {
-    Download(URL, DownloadsPath "\LoneWolfMwScriptsV1.0.4.exe")
+    Download(URL, DownloadsPath "\LoneWolfMwScriptsV1.0.6.exe")
 }
 
 RunUpdate() {
-    Run(DownloadsPath "\LoneWolfMwScriptsV1.0.4.exe")
+    Run(DownloadsPath "\LoneWolfMwScriptsV1.0.6.exe")
 }
 
 DeleteOldVersion() {
     try
-        FileDelete(DownloadsPath "\LoneWolfMwScriptsV1.0.3.exe")
+        FileDelete(DownloadsPath "\LoneWolfMwScriptsV1.0.5.exe")
     catch
         return
 }
