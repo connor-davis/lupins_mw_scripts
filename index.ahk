@@ -42,17 +42,13 @@ else {
     SlideCancelSprintKeybind := "LShift"
 
     guiWidth := 500
-    guiHeight := 635
+    guiHeight := 625
 
     g_LMWS := Gui(, "LoneWolf MW Scripts v" AppVersion)
     g_LMWS.OnEvent("Close", GuiClose)
 
     g_LMWS_Title := g_LMWS.Add("Text", "W460 H24 X10 Y10", "LoneWolf MW Scripts")
     g_LMWS_Title.SetFont("c22a55e Bold S16")
-
-    g_LMWS_Exit := g_LMWS.Add("Text", "W10 H24 X+10 Y10", "X")
-    g_LMWS_Exit.SetFont("c191919 Bold S10")
-    g_LMWS_Exit.OnEvent("Click", GuiClose)
 
     g_LMWS_Message := g_LMWS.Add("Text", "W480 H80 X10", "Welcome to LoneWolf MW Scripts. These scripts make your life easier when it comes to key-combinations in modern warfare. These do not give you “hacks”. Use the scripts at your own risk, I will not be liable for anything that happens while using them.")
     g_LMWS_Message.SetFont("S12")
@@ -125,9 +121,6 @@ else {
 
     Display() {
         g_LMWS.Show("W" guiWidth " H" guiHeight " Center")
-
-        WinSetStyle(-0xC00000, g_LMWS.Title)
-        WinSetRegion("0-0 W" guiWidth " H" guiHeight " R15-15", g_LMWS.Title)
     }
 
     Hide() {
