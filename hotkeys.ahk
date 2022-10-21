@@ -12,7 +12,7 @@ End:: {
 }
 
 F2:: {
-    If (WinActive("ahk_exe ModernWarfare.exe")) {
+    If (WinActive("ahk_exe " Application ".exe")) {
         toggleSilentShot()
 
         GuiCtrlFromHwnd(g_LMWS_SilentShotCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_SilentShotCheckbox.Hwnd).Value
@@ -20,7 +20,7 @@ F2:: {
 }
 
 F3:: {
-    If (WinActive("ahk_exe ModernWarfare.exe")) {
+    If (WinActive("ahk_exe " Application ".exe")) {
         toggleRapidFire()
 
         GuiCtrlFromHwnd(g_LMWS_RapidFireCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_RapidFireCheckbox.Hwnd).Value
@@ -28,7 +28,7 @@ F3:: {
 }
 
 F4:: {
-    If (WinActive("ahk_exe ModernWarfare.exe")) {
+    If (WinActive("ahk_exe " Application ".exe")) {
         toggleSlideCancel()
 
         GuiCtrlFromHwnd(g_LMWS_SlideCancelCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_SlideCancelCheckbox.Hwnd).Value
@@ -36,7 +36,7 @@ F4:: {
 }
 
 F5:: {
-    If (WinActive("ahk_exe ModernWarfare.exe")) {
+    If (WinActive("ahk_exe " Application ".exe")) {
         disableAll()
 
         GuiCtrlFromHwnd(g_LMWS_SilentShotCheckbox.Hwnd).Value := 0

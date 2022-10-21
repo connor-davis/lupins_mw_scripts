@@ -1,3 +1,5 @@
+Application := "cod"
+
 ChangeSilentShotLethalKey(*) {
     global SilentShotKey
 
@@ -58,7 +60,7 @@ SlideCancelCheckboxChanged(*) {
 }
 
 SilentShotScript(*) {
-    If (WinActive("ahk_exe ModernWarfare.exe")) {
+    If (WinActive("ahk_exe " Application ".exe")) {
         Send("{Lbutton down}")
         Sleep(5)
         Send("{Lbutton up}")
@@ -76,7 +78,7 @@ SilentShotScript(*) {
 }
 
 RapidFireScript(*) {
-    If (WinActive("ahk_exe ModernWarfare.exe")) {
+    If (WinActive("ahk_exe " Application ".exe")) {
         While GetKeyState("LButton", "P") {
             MouseClick("Left")
             Sleep(50)
@@ -85,7 +87,19 @@ RapidFireScript(*) {
 }
 
 SlideCancelScript(*) {
-    If (WinActive("ahk_exe ModernWarfare.exe")) {
+    If (WinActive("ahk_exe " Application ".exe")) {
+        ; ======================================
+        ; MW2
+        ; ======================================
+        ; Send("{" SlideCancelSlideKeybind "}")
+        ; Sleep(50)
+        ; Send("{" SlideCancelCancelKeybind "}")
+        ; Sleep(5)
+        ; Send("{" SlideCancelCancelKeybind "}")
+
+        ; =========================================
+        ; MW2019
+        ; =========================================
         Send("{" SlideCancelSlideKeybind " down}")
         Sleep(70)
         Send("{" SlideCancelSlideKeybind " up}")
@@ -106,7 +120,7 @@ toggleSilentShot() {
     global silentShotEnabled
     global rapidFireEnabled
 
-    If (WinActive("ahk_exe ModernWarfare.exe")) {
+    If (WinActive("ahk_exe " Application ".exe")) {
         if (silentShotEnabled = 0) {
             Hotkey("LButton", SilentShotScript, "Off")
             Hotkey("LButton", RapidFireScript, "Off")
@@ -135,7 +149,7 @@ toggleRapidFire() {
     global rapidFireEnabled
     global silentShotEnabled
 
-    If (WinActive("ahk_exe ModernWarfare.exe")) {
+    If (WinActive("ahk_exe " Application ".exe")) {
         if (rapidFireEnabled = 0) {
             Hotkey("LButton", SilentShotScript, "Off")
             Hotkey("LButton", RapidFireScript, "Off")
@@ -165,7 +179,7 @@ toggleRapidFire() {
 toggleSlideCancel() {
     global slideCancelEnabled
 
-    If (WinActive("ahk_exe ModernWarfare.exe")) {
+    If (WinActive("ahk_exe " Application ".exe")) {
         if (slideCancelEnabled = 0) {
             Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "Off")
             Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "On")
@@ -195,7 +209,7 @@ disableAll() {
     global rapidFireEnabled
     global slideCancelEnabled
 
-    If (WinActive("ahk_exe ModernWarfare.exe")) {
+    If (WinActive("ahk_exe " Application ".exe")) {
         SoundBeep 1000
         SoundBeep 500
         SoundBeep 1000
