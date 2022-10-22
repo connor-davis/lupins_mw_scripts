@@ -35,8 +35,16 @@ ChangeSlideCancelCancelKey(*) {
     SlideCancelCancelKeybind := o.SlideCancelCancelKey
 }
 
+ChangeUnscopeAfterSilentShotEnabled(*) {
+    global unscopeAfterSilentShotEnabled
+
+    o := g_LMWS.Submit("0")
+    unscopeAfterSilentShotEnabled := o.UnscopeAfterSilentShotEnabled
+}
+
 ApplyChanges(*) {
     IniWrite(SilentShotKey, A_MyDocuments "\LMWS\config.ini", "Silent Shot", "key")
+    IniWrite(unscopeAfterSilentShotEnabled, A_MyDocuments "\LMWS\config.ini", "Silent Shot", "unscopeAfterSilentShotEnabled")
     ; IniWrite(RechamberCancelKey, A_MyDocuments "\LMWS\config.ini", "Rechamber Cancel", "key")
     IniWrite(SlideCancelActivatorKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "activatorKey")
     IniWrite(SlideCancelSlideKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "slideKey")

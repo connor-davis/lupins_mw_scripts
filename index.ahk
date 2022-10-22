@@ -111,7 +111,7 @@ else {
     g_LMWS_UnscopeAfterSilentShotEnabledLabel.SetFont("S12")
     g_LMWS_SlideCancelCheckbox := g_LMWS.AddCheckbox("W80 H20 X+10 vUnscopeAfterSilentShotEnabled", "")
     g_LMWS_SlideCancelCheckbox.SetFont("S12")
-    g_LMWS_SlideCancelCheckbox.OnEvent("Click", UnscopeAfterSilentShotEnabledChanged)
+    g_LMWS_SlideCancelCheckbox.OnEvent("Click", ChangeUnscopeAfterSilentShotEnabled)
 
     ; Rechamber Cancel Key Input
     ; g_LMWS_RechamberCancelKeyLabel := g_LMWS.Add("Text", "W480 H20", "Rechamber Cancel Key:")
@@ -143,13 +143,6 @@ else {
     g_LMWS_ApplyButton.OnEvent("Click", ApplyChanges)
 
     g_LMWS_StatusBar := g_LMWS.AddStatusBar("", "")
-
-    UnscopeAfterSilentShotEnabledChanged(*) {
-        global unscopeAfterSilentShotEnabled
-
-        o := g_LMWS.Submit("0")
-        unscopeAfterSilentShotEnabled := o.UnscopeAfterSilentShotEnabled
-    }
 
     Display() {
         g_LMWS.Show("W" guiWidth " H" guiHeight " Center")
