@@ -35,6 +35,14 @@ F4:: {
     }
 }
 
+; F5:: {
+;     If (WinActive("ahk_exe " Application ".exe")) {
+;         toggleRechamberCancel()
+
+;         GuiCtrlFromHwnd(g_LMWS_RechamberCancelCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_RechamberCancelCheckbox.Hwnd).Value
+;     }
+; }
+
 F5:: {
     If (WinActive("ahk_exe " Application ".exe")) {
         disableAll()

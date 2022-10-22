@@ -29,6 +29,7 @@ else {
     hidden := 1
 
     silentShotEnabled := 0
+    ; rechamberCancelEnabled := 0
     rapidFireEnabled := 0
     slideCancelEnabled := 0
     silentShotCheckboxHwnd := 0
@@ -36,13 +37,14 @@ else {
     slideCancelCheckboxHwnd := 0
 
     SilentShotKey := IniRead(A_MyDocuments "\LMWS\config.ini", "Silent Shot", "key", "F")
+    ; RechamberCancelKey := IniRead(A_MyDocuments "\LMWS\config.ini", "Rechamber Cancel", "key", "2")
     SlideCancelActivatorKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "activatorKey", "C")
     SlideCancelSlideKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "slideKey", "C")
     SlideCancelCancelKeybind := IniRead(A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "cancelKey", "XButton1")
     SlideCancelSprintKeybind := "LShift"
 
     guiWidth := 500
-    guiHeight := 625
+    guiHeight := 705
 
     g_LMWS := Gui(, "LoneWolf MW Scripts v" AppVersion)
     g_LMWS.OnEvent("Close", GuiClose)
@@ -81,6 +83,15 @@ else {
     g_LMWS_SlideCancelCheckbox.OnEvent("Click", SlideCancelCheckboxChanged)
     slideCancelCheckboxHwnd := g_LMWS_SlideCancelCheckbox.Hwnd
 
+    ; Rechamber Cancel
+    ; g_LMWS_RechamberCancelHotkey := g_LMWS.Add("Text", "W390 H20 X10", "Rechamber Cancel: `t`tF5")
+    ; g_LMWS_RechamberCancelHotkey.SetFont("S12")
+
+    ; g_LMWS_RechamberCancelCheckbox := g_LMWS.AddCheckbox("W80 H20 X+10 vRechamberCancelHotkeyCheckbox", "Enabled")
+    ; g_LMWS_RechamberCancelCheckbox.SetFont("S12")
+    ; g_LMWS_RechamberCancelCheckbox.OnEvent("Click", RechamberCancelCheckboxChanged)
+    ; RechamberCancelCheckboxHwnd := g_LMWS_RechamberCancelCheckbox.Hwnd
+
     ; Disable All
     g_LMWS_DisableAllHotkey := g_LMWS.Add("Text", "W480 H30 X10", "Disable All: `t`t`tF5")
     g_LMWS_DisableAllHotkey.SetFont("S12")
@@ -93,6 +104,12 @@ else {
     g_LMWS_SilentShotLethalKeyLabel.SetFont("S12")
     g_LMWS_SilentShotLethalHotkey_Input := g_LMWS.AddEdit("vSilentShotKey W480", SilentShotKey)
     g_LMWS_SilentShotLethalHotkey_Input.OnEvent("Change", ChangeSilentShotLethalKey.Bind("Change"))
+
+    ; Rechamber Cancel Key Input
+    ; g_LMWS_RechamberCancelKeyLabel := g_LMWS.Add("Text", "W480 H20", "Rechamber Cancel Key:")
+    ; g_LMWS_RechamberCancelKeyLabel.SetFont("S12")
+    ; g_LMWS_RechamberCancelHotkey_Input := g_LMWS.AddEdit("vRechamberCancelKey W480", RechamberCancelKey)
+    ; g_LMWS_RechamberCancelHotkey_Input.OnEvent("Change", ChangeRechamberCancelKey.Bind("Change"))
 
     ; Slide Cancel Usage
     g_LMWS_SlideCancelLabel := g_LMWS.Add("Text", "W480 H20", "Slide Cancel:")

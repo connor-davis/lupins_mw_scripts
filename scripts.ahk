@@ -1,4 +1,4 @@
-Application := "cod"
+Application := "ModernWarfare"
 
 ChangeSilentShotLethalKey(*) {
     global SilentShotKey
@@ -6,6 +6,13 @@ ChangeSilentShotLethalKey(*) {
     o := g_LMWS.Submit("0")
     SilentShotKey := o.SilentShotKey
 }
+
+; ChangeRechamberCancelKey(*) {
+;     global RechamberCancelKey
+
+;     o := g_LMWS.Submit("0")
+;     RechamgerCancelKey := o.RechamberCancelKey
+; }
 
 ChangeSlideCancelActivatorKey(*) {
     global SlideCancelActivatorKeybind
@@ -30,9 +37,10 @@ ChangeSlideCancelCancelKey(*) {
 
 ApplyChanges(*) {
     IniWrite(SilentShotKey, A_MyDocuments "\LMWS\config.ini", "Silent Shot", "key")
+    ; IniWrite(RechamberCancelKey, A_MyDocuments "\LMWS\config.ini", "Rechamber Cancel", "key")
     IniWrite(SlideCancelActivatorKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "activatorKey")
     IniWrite(SlideCancelSlideKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "slideKey")
-    IniWrite(SlideCancelCancelKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "jumpKey")
+    IniWrite(SlideCancelCancelKeybind, A_MyDocuments "\LMWS\config.ini", "Slide Cancel", "cancelKey")
 
     GuiCtrlFromHwnd(g_LMWS_StatusBar.Hwnd).Text := "Changes have been saved."
 
@@ -59,6 +67,12 @@ SlideCancelCheckboxChanged(*) {
     toggleSlideCancel()
 }
 
+; RechamberCancelCheckboxChanged(*) {
+;     o := g_LMWS.Submit("0")
+
+;     toggleRechamberCancel()
+; }
+
 SilentShotScript(*) {
     If (WinActive("ahk_exe " Application ".exe")) {
         Send("{Lbutton down}")
@@ -76,6 +90,12 @@ SilentShotScript(*) {
         Send("{RButton up}")
     }
 }
+
+; RechamberCancelScript(*) {
+;     If (WinActive("ahk_exe " Application ".exe")) {
+;         Send("{1}")
+;     }
+; }
 
 RapidFireScript(*) {
     If (WinActive("ahk_exe " Application ".exe")) {
@@ -101,17 +121,17 @@ SlideCancelScript(*) {
         ; MW2019
         ; =========================================
         Send("{" SlideCancelSlideKeybind " down}")
-        Sleep(70)
+        Sleep(80)
         Send("{" SlideCancelSlideKeybind " up}")
-        Sleep(70)
+        Sleep(80)
         Send("{" SlideCancelSlideKeybind " down}")
-        Sleep(70)
+        Sleep(80)
         Send("{" SlideCancelSlideKeybind " up}")
         Sleep(35)
         Send("{" SlideCancelCancelKeybind " down}")
-        Sleep(5)
+        Sleep(70)
         Send("{" SlideCancelCancelKeybind " up}")
-        Sleep(5)
+        Sleep(70)
         Send("{" SlideCancelSprintKeybind "}")
     }
 }
@@ -145,12 +165,42 @@ toggleSilentShot() {
     }
 }
 
+; toggleRechamberCancel() {
+;     global rechamberCancelEnabled
+
+;     If (WinActive("ahk_exe " Application ".exe")) {
+;         If (rechamberCancelEnabled = 0) {
+;             Hotkey(RechamberCancelKey, RechamberCancelScript, "Off")
+;             Hotkey(RechamberCancelKey, RechamberCancelScript, "On")
+
+;             rechamberCancelEnabled := 1
+
+;             SoundBeep 1000
+;             SoundBeep 500
+;             SoundBeep 1000
+;             SoundBeep 500
+;             SoundBeep 1000
+;         }
+;         else {
+;             Hotkey(RechamberCancelKey, RechamberCancelScript, "Off")
+
+;             rechamberCancelEnabled := 0
+
+;             SoundBeep 500
+;             SoundBeep 1000
+;             SoundBeep 500
+;             SoundBeep 1000
+;             SoundBeep 500
+;         }
+;     }
+; }
+
 toggleRapidFire() {
     global rapidFireEnabled
     global silentShotEnabled
 
     If (WinActive("ahk_exe " Application ".exe")) {
-        if (rapidFireEnabled = 0) {
+        If (rapidFireEnabled = 0) {
             Hotkey("LButton", SilentShotScript, "Off")
             Hotkey("LButton", RapidFireScript, "Off")
 
@@ -162,6 +212,7 @@ toggleRapidFire() {
             SoundBeep 1000
             SoundBeep 500
             SoundBeep 1000
+            SoundBeep 500
         }
         else {
             Hotkey("LButton", SilentShotScript, "Off")
@@ -172,6 +223,7 @@ toggleRapidFire() {
             SoundBeep 500
             SoundBeep 1000
             SoundBeep 500
+            SoundBeep 1000
         }
     }
 }
@@ -190,6 +242,7 @@ toggleSlideCancel() {
             SoundBeep 500
             SoundBeep 1000
             SoundBeep 500
+            SoundBeep 1000
         }
         else {
             Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "Off")
@@ -200,6 +253,7 @@ toggleSlideCancel() {
             SoundBeep 1000
             SoundBeep 500
             SoundBeep 1000
+            SoundBeep 500
         }
     }
 }
@@ -215,6 +269,7 @@ disableAll() {
         SoundBeep 1000
         SoundBeep 500
         SoundBeep 1000
+        SoundBeep 500
 
         silentShotEnabled := 0
         rapidFireEnabled := 0
