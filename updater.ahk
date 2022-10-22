@@ -4,7 +4,7 @@
 #Include Jxon.ahk
 
 URL := "https://api.github.com/repos/connor-davis/lupins_mw_scripts/releases/latest"
-DownloadsPath := A_ScriptDir
+DownloadsPath := A_ScriptDir ""
 LatestVersionFileName := ""
 LatestVersion := ""
 
