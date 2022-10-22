@@ -1,6 +1,7 @@
 #SingleInstance Force
 #MaxThreads 4
 #Requires AutoHotkey v2.0-a
+#Include installAssets.ahk
 #Include updater.ahk
 #Include hotkeys.ahk
 #Include scripts.ahk
