@@ -86,8 +86,11 @@ SilentShotScript(*) {
         Send("{1 up}")
         Sleep(5)
         Send("{" SilentShotKey " up}")
-        Sleep(5)
-        Send("{RButton up}")
+
+        if (unscopeAfterSilentShotEnabled := 1) {
+            Sleep(5)
+            Send("{RButton up}")
+        }
     }
 }
 
