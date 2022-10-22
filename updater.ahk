@@ -16,15 +16,15 @@ CheckForUpdate(AppVersion, WebRequest) {
     WebRequest.Send()
 
     text := WebRequest.ResponseText
-    obj := jxon_load(&text)
 
-    LatestVersionFileName := obj["assets"][1]["name"]
+    obj := jxon_load(&text)
 
     latestReleaseVersion := StrReplace(obj["tag_name"], ".", "")
     latestReleaseVersion := StrReplace(latestReleaseVersion, "v", "")
     installedVersion := StrReplace(AppVersion, ".", "")
 
     If (latestReleaseVersion > installedVersion) {
+        LatestVersionFileName := obj["assets"][1]["name"]
         LatestVersion := StrReplace(obj["tag_name"], "v", "")
     }
 
@@ -32,9 +32,10 @@ CheckForUpdate(AppVersion, WebRequest) {
 }
 
 DownloadUpdate() {
+    global LatestVersion
     global LatestVersionFileName
 
-    Download(URL, DownloadsPath "\" LatestVersionFileName)
+    Download("https://github.com/connor-davis/lupins_mw_scripts/releases/download/v" LatestVersion "/" LatestVersionFileName, DownloadsPath "\" LatestVersionFileName)
 }
 
 RunUpdate() {
@@ -42,13 +43,13 @@ RunUpdate() {
 
     IniWrite(LatestVersion, A_MyDocuments "\LMWS\config.ini", "Information", "AppVersion")
     Run(DownloadsPath "\" LatestVersionFileName)
-    ExitApp()
-    DeleteOldVersion()
 }
 
 DeleteOldVersion() {
+    LastAppVersion := IniRead(A_MyDocuments "\LMWS\config.ini", "Information", "AppVersion", "1.0.7")
+
     try
-        FileDelete(DownloadsPath "\LoneWolfMwScriptsV" AppVersion ".exe")
+        FileDelete(DownloadsPath "\LoneWolfMwScriptsV" LastAppVersion ".exe")
     catch
         return
 }

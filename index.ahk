@@ -11,7 +11,8 @@ if (!DirExist(A_MyDocuments "\LMWS")) {
     DirCreate(A_MyDocuments "\LMWS")
 }
 
-AppVersion := IniRead(A_MyDocuments "\LMWS\config.ini", "Information", "AppVersion", "1.0.6")
+AppVersion := IniRead(A_MyDocuments "\LMWS\config.ini", "Information", "AppVersion", "1.0.7")
+
 WebRequest := ComObject("WinHttp.WinHttpRequest.5.1")
 
 UpdateAvailable := CheckForUpdate(AppVersion, WebRequest)
@@ -26,6 +27,8 @@ if (UpdateAvailable) {
 }
 else {
     DeleteOldVersion()
+
+    IniWrite(AppVersion, A_MyDocuments "\LMWS\config.ini", "Information", "LastAppVersion")
 
     hidden := 1
 
