@@ -22,7 +22,7 @@ RunUpdate() {
 
 DeleteOldVersion() {
     try
-        FileDelete(DownloadsPath "\LoneWolfMwScriptsV1.0.6.exe")
+        FileDelete(DownloadsPath "\LoneWolfMwScriptsV1.0.5.exe")
     catch
         return
 }
