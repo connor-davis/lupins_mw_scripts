@@ -5,12 +5,13 @@
 #Include hotkeys.ahk
 #Include scripts.ahk
 
+ComputerName := A_ComputerName
+
 if (!DirExist(A_MyDocuments "\LMWS")) {
     DirCreate(A_MyDocuments "\LMWS")
 }
 
-AppVersion := "1.0.5"
-IniWrite(AppVersion, A_MyDocuments "\LMWS\config.ini", "Information", "AppVersion")
+AppVersion := IniRead(A_MyDocuments "\LMWS\config.ini", "Information", "AppVersion", "1.0.6")
 WebRequest := ComObject("WinHttp.WinHttpRequest.5.1")
 
 UpdateAvailable := CheckForUpdate(AppVersion, WebRequest)
