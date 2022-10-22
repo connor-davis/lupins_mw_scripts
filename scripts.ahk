@@ -176,8 +176,7 @@ toggleSilentShot() {
             silentShotEnabled := 1
             rapidFireEnabled := 0
 
-            SoundBeep 1000
-            SoundBeep 500
+            SoundPlay("assets/Silent_Shot_Enabled.wav", 0)
         }
         else {
             Hotkey("LButton", SilentShotScript, "Off")
@@ -185,8 +184,7 @@ toggleSilentShot() {
 
             silentShotEnabled := 0
 
-            SoundBeep 500
-            SoundBeep 1000
+            SoundPlay("assets/Silent_Shot_Disabled.wav", 0)
         }
     }
 }
@@ -235,10 +233,7 @@ toggleRapidFire() {
             rapidFireEnabled := 1
             silentShotEnabled := 0
 
-            SoundBeep 1000
-            SoundBeep 500
-            SoundBeep 1000
-            SoundBeep 500
+            SoundPlay("assets/Rapid_Fire_Enabled.wav", 0)
         }
         else {
             Hotkey("LButton", SilentShotScript, "Off")
@@ -246,10 +241,7 @@ toggleRapidFire() {
 
             silentShotEnabled := 0
 
-            SoundBeep 500
-            SoundBeep 1000
-            SoundBeep 500
-            SoundBeep 1000
+            SoundPlay("assets/Rapid_Fire_Disabled.wav", 0)
         }
     }
 }
@@ -264,22 +256,14 @@ toggleSlideCancel() {
 
             slideCancelEnabled := 1
 
-            SoundBeep 1000
-            SoundBeep 500
-            SoundBeep 1000
-            SoundBeep 500
-            SoundBeep 1000
+            SoundPlay("assets/Slide_Cancel_Enabled.wav", 0)
         }
         else {
             Hotkey(SlideCancelActivatorKeybind, SlideCancelScript, "Off")
 
             slideCancelEnabled := 0
 
-            SoundBeep 500
-            SoundBeep 1000
-            SoundBeep 500
-            SoundBeep 1000
-            SoundBeep 500
+            SoundPlay("assets/Slide_Cancel_Disabled.wav", 0)
         }
     }
 }
@@ -290,12 +274,7 @@ disableAll() {
     global slideCancelEnabled
 
     If (WinActive("ahk_exe " Application ".exe")) {
-        SoundBeep 1000
-        SoundBeep 500
-        SoundBeep 1000
-        SoundBeep 500
-        SoundBeep 1000
-        SoundBeep 500
+        SoundPlay("assets/All_Scripts_Disabled.wav.wav", 0)
 
         silentShotEnabled := 0
         rapidFireEnabled := 0
