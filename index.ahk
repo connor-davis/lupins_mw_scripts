@@ -46,7 +46,7 @@ else {
     SlideCancelSprintKeybind := "LShift"
 
     guiWidth := 500
-    guiHeight := 705
+    guiHeight := 710
 
     g_LMWS := Gui(, "LoneWolf MW Scripts v" AppVersion)
     g_LMWS.OnEvent("Close", GuiClose)
@@ -54,7 +54,7 @@ else {
     g_LMWS_Title := g_LMWS.Add("Text", "W460 H24 X10 Y10", "LoneWolf MW Scripts")
     g_LMWS_Title.SetFont("c22a55e Bold S16")
 
-    g_LMWS_Message := g_LMWS.Add("Text", "W480 H80 X10", "Welcome to LoneWolf MW Scripts. These scripts make your life easier when it comes to key-combinations in modern warfare. These do not give you “hacks”. Use the scripts at your own risk, I will not be liable for anything that happens while using them.")
+    g_LMWS_Message := g_LMWS.Add("Text", "W480 H140 X10", "Welcome to LoneWolf MW Scripts. These scripts make your life easier when it comes to key-combinations in modern warfare. These do not give you “hacks”. Use the scripts at your own risk, I will not be liable for anything that happens while using them. Please note you can change settings under configuration without being inside the game but to enable the different scripts you will need to be in the game.")
     g_LMWS_Message.SetFont("S12")
 
     g_LMWS_HotkeyList := g_LMWS.Add("Text", "W480 H24", "Hotkeys:")
@@ -66,7 +66,7 @@ else {
 
     g_LMWS_SilentShotCheckbox := g_LMWS.Add("Checkbox", "W80 H20 X+10 vSilentShotHotkeyCheckbox", "Enabled")
     g_LMWS_SilentShotCheckbox.SetFont("S12")
-    g_LMWS_SilentShotCheckbox.OnEvent("Click", SilentShotCheckboxChanged)
+    g_LMWS_SilentShotCheckbox.OnEvent("Click", SilentShotCheckboxChanged.Bind("Click"))
 
     ; Rapid Fire
     g_LMWS_RapidFireHotkey := g_LMWS.Add("Text", "W390 H20 X10", "Rapid Fire: `t`t`tF3")
@@ -74,7 +74,7 @@ else {
 
     g_LMWS_RapidFireCheckbox := g_LMWS.AddCheckbox("W80 H20 X+10 vRapidFireHotkeyLabel", "Enabled")
     g_LMWS_RapidFireCheckbox.SetFont("S12")
-    g_LMWS_RapidFireCheckbox.OnEvent("Click", RapidFireCheckboxChanged)
+    g_LMWS_RapidFireCheckbox.OnEvent("Click", RapidFireCheckboxChanged.Bind("Click"))
 
     ; Slide Cancel
     g_LMWS_SlideCancelHotkey := g_LMWS.Add("Text", "W390 H20 X10", "Slide Cancel: `t`t`tF4")
@@ -82,8 +82,7 @@ else {
 
     g_LMWS_SlideCancelCheckbox := g_LMWS.AddCheckbox("W80 H20 X+10 vSlideCancelHotkeyCheckbox", "Enabled")
     g_LMWS_SlideCancelCheckbox.SetFont("S12")
-    g_LMWS_SlideCancelCheckbox.OnEvent("Click", SlideCancelCheckboxChanged)
-    slideCancelCheckboxHwnd := g_LMWS_SlideCancelCheckbox.Hwnd
+    g_LMWS_SlideCancelCheckbox.OnEvent("Click", SlideCancelCheckboxChanged.Bind("Click"))
 
     ; Rechamber Cancel
     ; g_LMWS_RechamberCancelHotkey := g_LMWS.Add("Text", "W390 H20 X10", "Rechamber Cancel: `t`tF5")
@@ -95,7 +94,7 @@ else {
     ; RechamberCancelCheckboxHwnd := g_LMWS_RechamberCancelCheckbox.Hwnd
 
     ; Disable All
-    g_LMWS_DisableAllHotkey := g_LMWS.Add("Text", "W480 H30 X10", "Disable All: `t`t`tF5")
+    g_LMWS_DisableAllHotkey := g_LMWS.Add("Text", "W480 H20 X10", "Disable All: `t`t`tF5")
     g_LMWS_DisableAllHotkey.SetFont("S12")
 
     g_LMWS_HotkeyList := g_LMWS.Add("Text", "W480 H25", "Configuration:")
@@ -107,11 +106,11 @@ else {
     g_LMWS_SilentShotLethalHotkey_Input := g_LMWS.AddEdit("vSilentShotKey W480", SilentShotKey)
     g_LMWS_SilentShotLethalHotkey_Input.OnEvent("Change", ChangeSilentShotLethalKey.Bind("Change"))
 
-    g_LMWS_UnscopeAfterSilentShotEnabledLabel := g_LMWS.Add("Text", "W460 H20", "Do you want the scope to exit on silent shot?")
+    g_LMWS_UnscopeAfterSilentShotEnabledLabel := g_LMWS.Add("Text", "W455 H20", "Do you want the scope to exit on silent shot?")
     g_LMWS_UnscopeAfterSilentShotEnabledLabel.SetFont("S12")
-    g_LMWS_SlideCancelCheckbox := g_LMWS.AddCheckbox("W80 H20 X+10 vUnscopeAfterSilentShotEnabled", "")
-    g_LMWS_SlideCancelCheckbox.SetFont("S12")
-    g_LMWS_SlideCancelCheckbox.OnEvent("Click", ChangeUnscopeAfterSilentShotEnabled)
+    g_LMWS_UnscopeAfterSilentShotEnabledCheckbox := g_LMWS.AddCheckbox("W80 H20 X+10 vUnscopeAfterSilentShotEnabled Checked" unscopeAfterSilentShotEnabled, "")
+    g_LMWS_UnscopeAfterSilentShotEnabledCheckbox.SetFont("S12")
+    g_LMWS_UnscopeAfterSilentShotEnabledCheckbox.OnEvent("Click", ChangeUnscopeAfterSilentShotEnabled.Bind("Click"))
 
     ; Rechamber Cancel Key Input
     ; g_LMWS_RechamberCancelKeyLabel := g_LMWS.Add("Text", "W480 H20", "Rechamber Cancel Key:")
@@ -120,7 +119,7 @@ else {
     ; g_LMWS_RechamberCancelHotkey_Input.OnEvent("Change", ChangeRechamberCancelKey.Bind("Change"))
 
     ; Slide Cancel Usage
-    g_LMWS_SlideCancelLabel := g_LMWS.Add("Text", "W480 H20", "Slide Cancel:")
+    g_LMWS_SlideCancelLabel := g_LMWS.Add("Text", "W480 H20 X10 Y+10", "Slide Cancel:")
     g_LMWS_SlideCancelLabel.SetFont("S12")
 
     g_LMWS_SlideCancelActivatorKeyLabel := g_LMWS.Add("Text", "W480 H20", "Activator Key")

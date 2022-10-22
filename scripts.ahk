@@ -58,21 +58,36 @@ ApplyChanges(*) {
 }
 
 SilentShotCheckboxChanged(*) {
-    o := g_LMWS.Submit("0")
+    If (WinActive("ahk_exe " Application ".exe")) {
+        o := g_LMWS.Submit("0")
 
-    toggleSilentShot()
+        toggleSilentShot()
+    }
+    else {
+        GuiCtrlFromHwnd(g_LMWS_SilentShotCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_SilentShotCheckbox.Hwnd).Value
+    }
 }
 
 RapidFireCheckboxChanged(*) {
-    o := g_LMWS.Submit("0")
+    If (WinActive("ahk_exe " Application ".exe")) {
+        o := g_LMWS.Submit("0")
 
-    toggleRapidFire()
+        toggleRapidFire()
+    }
+    else {
+        GuiCtrlFromHwnd(g_LMWS_RapidFireCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_RapidFireCheckbox.Hwnd).Value
+    }
 }
 
 SlideCancelCheckboxChanged(*) {
-    o := g_LMWS.Submit("0")
+    If (WinActive("ahk_exe " Application ".exe")) {
+        o := g_LMWS.Submit("0")
 
-    toggleSlideCancel()
+        toggleSlideCancel()
+    }
+    else {
+        GuiCtrlFromHwnd(g_LMWS_SlideCancelCheckbox.Hwnd).Value := !GuiCtrlFromHwnd(g_LMWS_SlideCancelCheckbox.Hwnd).Value
+    }
 }
 
 ; RechamberCancelCheckboxChanged(*) {
